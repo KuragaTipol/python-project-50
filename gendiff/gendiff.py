@@ -2,16 +2,16 @@ import itertools
 import json
 
 
-# def listing(diff):
-#     diff_list = []
-#     for key, value in diff.items():
-#         if value is False:
-#             diff_list.append(f'  {key}: false')
-#         elif value is True:
-#             diff_list.append(f'  {key}: true')
-#         else:
-#             diff_list.append(f'  {key}: {value}')
-#     return diff_list
+def listing(diff):
+    diff_list = []
+    for key, value in diff.items():
+        if value is False:
+            diff_list.append(f'  {key}: false')
+        elif value is True:
+            diff_list.append(f'  {key}: true')
+        else:
+            diff_list.append(f'  {key}: {value}')
+    return diff_list
 
 
 def generate_diff(filepath1, filepath2):
@@ -31,15 +31,6 @@ def generate_diff(filepath1, filepath2):
             diff[f'- {key}'] = data1[key]
             diff[f'+ {key}'] = data2[key]
 
-    diff_list = []
-    for key, value in diff.items():
-        if value is False:
-            diff_list.append(f'  {key}: false')
-        elif value is True:
-            diff_list.append(f'  {key}: true')
-        else:
-            diff_list.append(f'  {key}: {value}')
-
-    # diff_list = listing(diff)
+    diff_list = listing(diff)
     result = itertools.chain('{', diff_list, '}')
     return '\n'.join(result)
