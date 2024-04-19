@@ -1,36 +1,45 @@
 import itertools
 import json
+import yaml
 
 
-def listing(diff):
-    diff_list = []
-    for key, value in diff.items():
+def open_file(filepath):
+    file = json.load(open(filepath))
+    return file
+
+
+def to_style(dict_):
+    list_ = []
+    for key, value in dict_.items():
         if value is False:
-            diff_list.append(f'  {key}: false')
+            list_.append(f'  {key}: false')
         elif value is True:
-            diff_list.append(f'  {key}: true')
+            list_.append(f'  {key}: true')
         else:
-            diff_list.append(f'  {key}: {value}')
-    return diff_list
+            list_.append(f'  {key}: {value}')
+    result = itertools.chain('{', diff_list, '}')
+    return '\n'.join(result)
+
+
+def sorted_diff_dict(dict1, dict2):
+    sorted_list = sorted(set(dict1.keys()).union(set(dict2.keys())))
+    diff = {}
+    for key in sorted_list:
+        if key not in dict1:
+            diff[f'+ {key}'] = dict2[key]
+        elif key not in dict2:
+            diff[f'- {key}'] = dict1[key]
+        elif dict1[key] == dict2[key]:
+            diff[f'  {key}'] = dict1[key]
+        elif dict1[key] != dict2[key]:
+            diff[f'- {key}'] = dict1[key]
+            diff[f'+ {key}'] = dict2[key]
+    return diff
 
 
 def generate_diff(filepath1, filepath2):
-    data1 = json.load(open(filepath1))
-    data2 = json.load(open(filepath2))
-
-    sorted_list = sorted(set(data1.keys()).union(set(data2.keys())))
-    diff = {}
-    for key in sorted_list:
-        if key not in data1:
-            diff[f'+ {key}'] = data2[key]
-        elif key not in data2:
-            diff[f'- {key}'] = data1[key]
-        elif data1[key] == data2[key]:
-            diff[f'  {key}'] = data1[key]
-        elif data1[key] != data2[key]:
-            diff[f'- {key}'] = data1[key]
-            diff[f'+ {key}'] = data2[key]
-
-    diff_list = listing(diff)
-    result = itertools.chain('{', diff_list, '}')
-    return '\n'.join(result)
+    data1 = open_file(filepath1)
+    data2 = open_file(filepath2)
+    diff_dict = sorted_diff_dict(data1, data2)
+    result = to_style(diff_dict)
+    return result
