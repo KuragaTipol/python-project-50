@@ -9,3 +9,4 @@ coverage.xml
 .vim
 *.lock
 .idea/
+demo.cast

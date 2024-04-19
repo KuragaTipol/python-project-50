@@ -1,10 +1,13 @@
 import itertools
 import json
-# import yaml
+import yaml
 
 
 def open_file(filepath):
-    file = json.load(open(filepath))
+    if '.json' in filepath:
+        file = json.load(open(filepath))
+    elif '.yml' or '.yaml' in filepath:
+        file = yaml.safe_load(open(filepath))
     return file
 
 
