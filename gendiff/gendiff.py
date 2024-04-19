@@ -1,6 +1,6 @@
 import itertools
 import json
-import yaml
+#import yaml
 
 
 def open_file(filepath):
@@ -17,7 +17,7 @@ def to_style(dict_):
             list_.append(f'  {key}: true')
         else:
             list_.append(f'  {key}: {value}')
-    result = itertools.chain('{', diff_list, '}')
+    result = itertools.chain('{', list_, '}')
     return '\n'.join(result)
 
 
