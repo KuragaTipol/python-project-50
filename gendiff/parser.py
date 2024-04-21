@@ -1,5 +1,6 @@
 import argparse
 
+
 def parser():
     parser = argparse.ArgumentParser(
         prog='gendiff',
