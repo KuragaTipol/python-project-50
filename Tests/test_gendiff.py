@@ -14,8 +14,8 @@ FLAT_STYLISH = 'Tests/Fixtures/Results/flat_stylish.txt'
 NESTED_STYLISH = 'Tests/Fixtures/Results/nested_stylish.txt'
 
 @pytest.mark.parametrize('file1, file2, expected', [
-    (JSON1, JSON2, RESULT),
-    (YAML1, YAML2, RESULT),
+    (JSON1, JSON2, FLAT_STYLISH),
+    (YAML1, YAML2, FLAT_STYLISH),
     (NESTED_JSON1, NESTED_JSON2, NESTED_STYLISH),
     (NESTED_YAML1, NESTED_YAML2, NESTED_STYLISH)
 ])
